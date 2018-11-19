@@ -1,6 +1,12 @@
 from node import Node
 
 
+def read_file(file):
+    with open(file, 'r', encoding="utf-8-sig") as input:
+        data = input.read()
+    return data
+
+
 def create_frequency_list(string):
     frequency_dict = {}
     for i in string:
@@ -39,8 +45,9 @@ def generate_huffman_binary_tree(freq_list):
 
 
 def main():
-    test_string = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin nibh augue, suscipit a, scelerisque sed, lacinia in, mi."
-    frequency_list = create_frequency_list(test_string)
+    input_string = read_file("Mr_T.txt")
+    print(input_string)
+    frequency_list = create_frequency_list(input_string)
 
     for i in range(len(frequency_list)):
         to_node = frequency_list[i]
