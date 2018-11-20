@@ -13,14 +13,25 @@ class Node:
         if self.right:
             self.right.print_tree()
 
-    @staticmethod
-    def assign_binary(node):
-        if not node.binary:
-            node.binary = ''
-        if node.left:
-            node.left.binary = node.binary + '0'
-            Node.assign_binary(node.left)
-        if node.right:
-            node.right.binary = node.binary + '1'
-            Node.assign_binary(node.right)
+    def assign_binary(self):
+        if not self.binary:
+            self.binary = ''
+        if self.left:
+            self.left.binary = self.binary + '0'
+            self.left.assign_binary()
+        if self.right:
+            self.right.binary = self.binary + '1'
+            self.right.assign_binary()
         return 0
+
+    def node_to_bin_dict(self, dictionary):
+        if self.left:
+            self.left.node_to_bin_dict(dictionary)
+            # if len(self.left.symbol) == 1:
+            #    dictionary[self.left.symbol] = self.left.binary
+        if len(self.symbol) == 1:
+            dictionary[self.symbol] = self.binary
+        if self.right:
+            if len(self.right.symbol) == 1:
+                dictionary[self.right.symbol] = self.right.binary
+        return dictionary

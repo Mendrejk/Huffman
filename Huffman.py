@@ -32,7 +32,7 @@ def generate_huffman_binary_tree(freq_list):
         temp.left, temp.right = a, b
         # removes a and b from freq_list:
         freq_list = freq_list[2:]
-        if len(freq_list) > 0:
+        if freq_list:
             inserted = False
             for i, node in enumerate(freq_list):
                 if temp.amount <= node.amount:
@@ -55,8 +55,9 @@ def main():
 
     tree = generate_huffman_binary_tree(frequency_list)
     print(tree.symbol, tree.amount)
-    Node.assign_binary(tree)
-    tree.print_tree()
+    tree.assign_binary()
+    bin_dictionary = tree.node_to_bin_dict({})
+    print(bin_dictionary)
 
 
 if __name__ == "__main__":
