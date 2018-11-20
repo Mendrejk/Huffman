@@ -9,7 +9,7 @@ class Node:
     def print_tree(self):
         if self.left:
             self.left.print_tree()
-        print(self.symbol, self.amount, self.binary)
+            print(self.symbol, self.amount, self.binary)
         if self.right:
             self.right.print_tree()
 
@@ -27,11 +27,17 @@ class Node:
     def node_to_bin_dict(self, dictionary):
         if self.left:
             self.left.node_to_bin_dict(dictionary)
-            # if len(self.left.symbol) == 1:
-            #    dictionary[self.left.symbol] = self.left.binary
         if len(self.symbol) == 1:
             dictionary[self.symbol] = self.binary
         if self.right:
-            if len(self.right.symbol) == 1:
-                dictionary[self.right.symbol] = self.right.binary
+            self.right.node_to_bin_dict(dictionary)
+        return dictionary
+
+    def node_to_char_dict(self, dictionary):
+        if self.left:
+            self.left.node_to_char_dict(dictionary)
+        if len(self.symbol) == 1:
+            dictionary[self.binary] = self.symbol
+        if self.right:
+            self.right.node_to_char_dict(dictionary)
         return dictionary

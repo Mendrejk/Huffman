@@ -2,9 +2,42 @@ from node import Node
 
 
 def read_file(file):
-    with open(file, 'r', encoding="utf-8-sig") as input:
-        data = input.read()
+    with open(file, 'r', encoding="utf-8-sig") as input_file:
+        data = input_file.read()
     return data
+
+
+def write_to_file(file, to_write):
+    with open(file, 'w', encoding='utf-8-sig') as output_file:
+        output_file.write(to_write)
+
+
+def binary_to_file(input_text, output_file, bin_dictionary):
+    with open(output_file, 'w', encoding="utf-8-sig") as output_file:
+        for i in input_text:
+            output_file.write(bin_dictionary[i])
+
+
+def binary_to_char(binary, char_dictionary):
+    big_t = ''
+    sad = False
+    while binary:
+        temp = ''
+        for i in binary:
+            temp += i
+            # print(big_t)
+            if temp in char_dictionary:
+                big_t += char_dictionary[temp]
+                binary = binary[len(temp)-1:]
+                temp = ''
+                # print(len(binary))
+            elif len(binary) - len(temp) == 0:
+                print('gg')
+                sad = True
+                break
+        if sad:
+            break
+    return big_t
 
 
 def create_frequency_list(string):
@@ -45,8 +78,9 @@ def generate_huffman_binary_tree(freq_list):
 
 
 def main():
-    input_string = read_file("Mr_T.txt")
-    print(input_string)
+    input_file = "Mr_T.txt"
+    output_file = "Binary_T.txt"
+    input_string = read_file(input_file)
     frequency_list = create_frequency_list(input_string)
 
     for i in range(len(frequency_list)):
@@ -54,10 +88,19 @@ def main():
         frequency_list[i] = Node(to_node[0], to_node[1])
 
     tree = generate_huffman_binary_tree(frequency_list)
-    print(tree.symbol, tree.amount)
     tree.assign_binary()
     bin_dictionary = tree.node_to_bin_dict({})
     print(bin_dictionary)
+
+    binary_to_file(input_string, output_file, bin_dictionary)
+
+    # reverse the coding:
+    to_char_file = output_file
+    to_char = read_file(to_char_file)
+    char_output_file = "Mr_T_or_is_it.txt"
+    char_dictionary = tree.node_to_char_dict({})
+    new_t = binary_to_char(to_char, char_dictionary)
+    write_to_file(char_output_file, new_t)
 
 
 if __name__ == "__main__":
